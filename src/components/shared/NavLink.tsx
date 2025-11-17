@@ -15,7 +15,7 @@ export default function NavLink({href, className, ...rest}: ComponentProps<typeo
       className={clsx(
         ` ${className}`,
         isActive
-          ? 'text-[#FFFFFF] px-2 bg-gradient-to-r from-[#5272FF] to-[#0D224A] '
+          ? 'text-[#FFFFFF] px-2 bg-linear-to-r from-[#5272FF] to-[#0D224A] '
           : `text-[#8CA3CD]`
       )}
       href={href}

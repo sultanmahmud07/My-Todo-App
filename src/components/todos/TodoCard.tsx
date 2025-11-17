@@ -1,32 +1,46 @@
 // TodoCard.tsx
-import { Edit, Trash2, Grip } from "lucide-react";
+import { TodoItem } from "@/types";
+import { GripVertical, PencilLine, Trash } from "lucide-react";
 
 
-export const TodoCard = ({ title, desc, due, priority }: any) => {
-const badgeColor = {
-Extreme: "bg-red-200 text-red-700",
-Moderate: "bg-green-200 text-green-800",
-Low: "bg-yellow-200 text-yellow-700",
-}[priority];
+export const TodoCard = ({ todo }: { todo: TodoItem }) => {
 
+      const priorityColor = {
+            extreme: "bg-red-100 text-red-600",
+            moderate: "bg-green-100 text-green-600",
+            low: "bg-yellow-100 text-yellow-600",
+      };
+      return (
+            <div
+                  key={todo.id}
+                  className="bg-white p-5 rounded-md shadow-sm border-[1px] border-[#FEE2E2] hover:shadow-md transition-all"
+            >
+                  <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-lg font-semibold text-[#0D224A]">
+                              {todo.title}
+                        </h3>
+                        <div className="flex items-center gap-1">
+                              <span
+                                    className={`px-3 py-1 text-sm rounded-lg ${priorityColor[todo.priority]
+                                          }`}
+                              >
+                                    {todo.priority.charAt(0).toUpperCase() + todo.priority.slice(1)}
+                              </span>
+                              <span className="text-[#8CA3CD]"><GripVertical size={19} /></span>
+                        </div>
+                  </div>
 
-return (
-<div className="bg-white p-5 rounded-xl shadow-sm border relative">
-<h3 className="text-lg font-semibold">{title}</h3>
-<span className={`text-xs px-2 py-1 rounded-md ${badgeColor} absolute right-5 top-5`}>
-{priority}
-</span>
-<p className="text-gray-600 text-sm my-2">{desc}</p>
-<p className="text-xs text-gray-500">Due {due}</p>
+                  <p className="text-[#4B5563] mb-4">{todo.description}</p>
+                  <div className="flex items-center justify-between gap-3">
+                        <p className="text-sm text-[#4B5563] mb-4">
+                              Due {new Date(todo.todo_date).toDateString()}
+                        </p>
 
-
-<div className="flex justify-end gap-3 mt-4">
-<Edit size={18} className="text-blue-500 cursor-pointer" />
-<Trash2 size={18} className="text-red-500 cursor-pointer" />
-</div>
-
-
-<Grip size={18} className="text-gray-400 absolute right-3 bottom-3 cursor-grab" />
-</div>
-);
+                        <div className="flex items-center gap-2">
+                              <button className="p-2 bg-[#EEF7FF] text-blue-600 rounded-lg"><PencilLine size={15} /></button>
+                              <button className="p-2 bg-[#EEF7FF] text-red-600 rounded-lg"><Trash size={15} /></button>
+                        </div>
+                  </div>
+            </div>
+      );
 };

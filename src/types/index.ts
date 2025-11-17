@@ -9,3 +9,15 @@ export interface IUser {
   profile_image: string | null;
   bio: string;
 }
+
+export interface TodoItem {
+  id: number;
+  title: string;
+  description: string;
+  priority: "extreme" | "moderate" | "low";
+  is_completed: boolean;
+  position: number;
+  todo_date?: string; // ISO date string e.g. "2025-11-15"
+  created_at: string;
+  updated_at: string;
+}
