@@ -18,7 +18,7 @@ export const Sidebar = () => {
                   </div>
 
 
-                  <nav className="flex flex-col gap-3 flex-grow">
+                  <nav className="flex flex-col gap-3">
                         <Link href="/dashboard/todos" className="flex items-center gap-3 p-3 rounded-lg bg-white/20">
                               <CheckSquare size={18} /> Todos
                         </Link>
