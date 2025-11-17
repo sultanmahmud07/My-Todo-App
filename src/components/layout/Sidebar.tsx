@@ -1,36 +1,39 @@
 import Image from "next/image";
-import Link from "next/link";
-import { User, LogOut, CheckSquare } from "lucide-react";
+import { User,CheckSquare, House } from "lucide-react";
+import { getUserInfo } from "@/services/auth/getUserInfo";
+import NavLink from "../shared/NavLink";
+import LogoutButton from "../auth/LogoutButton";
 
-export const Sidebar = () => {
+export const Sidebar = async () => {
+      const user = await getUserInfo();
+      // console.log(user)
       return (
-            <div className="w-full min-h-screen bg-[#0A1D3A] text-white flex flex-col p-6">
-                  <div className="flex flex-col items-center mb-10">
+            <div className="w-full min-h-screen bg-[#0D224A] text-white flex flex-col py-6">
+                  <div className="flex flex-col items-center py-10">
                         <Image
-                              src="/avatar.png"
+                              src={user?.profile_image || "/profile-img.png"}
                               alt="profile"
-                              width={70}
-                              height={70}
+                              width={100}
+                              height={100}
                               className="rounded-full mb-3"
                         />
-                        <h2 className="font-semibold">amanuel</h2>
-                        <p className="text-sm text-gray-300">amanuel@gmail.com</p>
+                        <h2 className="font-semibold">{user?.first_name + " " + user?.last_name}</h2>
+                        <p className="text-sm text-gray-300">{user?.email}</p>
                   </div>
 
 
-                  <nav className="flex flex-col gap-3">
-                        <Link href="/dashboard/todos" className="flex items-center gap-3 p-3 rounded-lg bg-white/20">
-                              <CheckSquare size={18} /> Todos
-                        </Link>
-                        <Link href="/dashboard/profile" className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10">
-                              <User size={18} /> Account Information
-                        </Link>
+                  <nav className="flex flex-col gap-3 text-lg">
+                        <NavLink href="/dashboard" className="flex items-center gap-3 p-4 pl-10 md:pl-16">
+                              <House size={24} /> Dashboard
+                        </NavLink>
+                        <NavLink href="/dashboard/todos" className="flex items-center gap-3 p-4 pl-10 md:pl-16">
+                              <CheckSquare size={24} /> Todos
+                        </NavLink>
+                        <NavLink href="/dashboard/profile" className="flex items-center gap-3 p-4 pl-10 md:pl-16">
+                              <User size={24} /> Account Information
+                        </NavLink>
                   </nav>
-
-
-                  <button className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 mt-auto">
-                        <LogOut size={18} /> Logout
-                  </button>
+                 <LogoutButton />
             </div>
       );
 };

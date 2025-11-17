@@ -1,34 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use server"
-
-import { UserInfo } from "@/types/user.interface";
-import jwt, { JwtPayload } from "jsonwebtoken";
+"server-only";
+import { IUser } from "@/types";
 import { getCookie } from "./tokenHandlers";
 
-export const getUserInfo = async (): Promise<UserInfo | null> => {
-
+export const getUserInfo = async (): Promise<IUser | null> => {
+    const token = await getCookie("accessToken");
+    if (!token) {
+        return null;
+    }
     try {
-        const accessToken = await getCookie("accessToken");
-
-        if (!accessToken) {
-            return null;
-        }
-
-        const verifiedToken = jwt.verify(accessToken, process.env.JWT_SECRET as string) as JwtPayload;
-
-        if (!verifiedToken) {
-            return null;
-        }
-
-        const userInfo: UserInfo = {
-            name: verifiedToken.name || "Unknown User",
-            email: verifiedToken.email,
-            role: verifiedToken.role,
-        };
-
-        return userInfo;
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/me/`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+        const result = await res.json();
+        return result;
     } catch (error: any) {
-        console.log(error);
+        console.error("User info error:", error);
         return null;
     }
 
