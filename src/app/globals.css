@@ -32,7 +32,7 @@ button {
 input, textarea, select, button {
   font-family: inherit;
 }
-input{
+input, textarea, select {
   border: 1px solid #D1D5DB;
   background-color: white;
   border-radius: 8px;

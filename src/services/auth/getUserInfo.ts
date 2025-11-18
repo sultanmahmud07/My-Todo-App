@@ -15,6 +15,9 @@ export const getUserInfo = async (): Promise<IUser | null> => {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`,
             },
+            next: {
+                tags: ["user-info"]
+            },
         });
         const result = await res.json();
         return result;

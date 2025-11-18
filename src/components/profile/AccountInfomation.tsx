@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Image from "next/image";
 import { IUser } from "@/types";
-import { CalendarDays, Upload } from "lucide-react";
+import { Upload } from "lucide-react";
 import { toast } from "react-toastify";
+import { updateUser } from "../actions/updateUser";
 
 interface Props {
-      token: string | null;
       user: IUser | null;
 }
 
-const AccountInformation = ({ token, user }: Props) => {
+const AccountInformation = ({ user }: Props) => {
       const [formData, setFormData] = useState({
             first_name: user?.first_name || "",
             last_name: user?.last_name || "",
@@ -20,13 +20,11 @@ const AccountInformation = ({ token, user }: Props) => {
             contact_number: user?.contact_number || "",
             birthday: user?.birthday || "",
       });
-
-      const [loading, setLoading] = useState(false);
       const [preview, setPreview] = useState<string | null>(
             user?.profile_image || null
       );
       const [imageFile, setImageFile] = useState<File | null>(null);
-
+      const [isPending, startTransition] = useTransition();
       // -------------------------
       // HANDLE TEXT INPUT CHANGE
       // -------------------------
@@ -52,7 +50,6 @@ const AccountInformation = ({ token, user }: Props) => {
       // -------------------------
       const handleSubmit = async (e: React.FormEvent) => {
             e.preventDefault();
-            setLoading(true);
 
             try {
                   const form = new FormData();
@@ -66,26 +63,12 @@ const AccountInformation = ({ token, user }: Props) => {
                   if (imageFile) {
                         form.append("profile_image", imageFile);
                   }
-
-                  const res = await fetch(
-                        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/me/`,
-                        {
-                              method: "PATCH",
-                              body: form,
-                              headers: {
-                                    // "Content-Type": "application/json",
-                                    "Authorization": `Bearer ${token}`,
-                              },
-                        }
-                  );
-
-                  const result = await res.json();
-                  console.log("Updated:", result);
+                  startTransition(() => {
+                        updateUser(form);
+                  });
                   toast.success("Profile updated successfully!");
-                  setLoading(false);
             } catch (err) {
                   console.log(err);
-                  setLoading(false);
             }
       };
 
@@ -220,10 +203,10 @@ const AccountInformation = ({ token, user }: Props) => {
                               <div className="flex justify-center gap-6 mt-10">
                                     <button
                                           type="submit"
-                                          disabled={loading}
+                                          disabled={isPending}
                                           className="bg-[#5272FF] text-white px-10 py-3 rounded-md"
                                     >
-                                          {loading ? "Saving..." : "Save Changes"}
+                                          {isPending ? "Saving..." : "Save Changes"}
                                     </button>
 
                                     <button
