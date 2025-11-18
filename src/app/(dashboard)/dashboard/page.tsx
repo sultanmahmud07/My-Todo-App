@@ -14,7 +14,7 @@ export default async function Overview() {
       {/* Welcome Section */}
       <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-6">
         <Image
-          src={user?.profile_image || "/default-user.png"}
+          src={user?.profile_image || "/profile-img.png"}
           alt="User Avatar"
           width={80}
           height={80}

@@ -16,7 +16,11 @@ export default async function proxy(req: NextRequest) {
   )
 
   const isAuthPage = authPages.includes(path)
-
+  
+ // --- Redirect root "/" to "/dashboard" ---
+  if (path === "/") {
+    return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
+  }
   // --- CASE 1: User is NOT logged in & visiting protected page ---
   if (isProtected && !cookie) {
     return NextResponse.redirect(new URL('/login', req.nextUrl))
@@ -33,6 +37,7 @@ export default async function proxy(req: NextRequest) {
 // Apply proxy to these routes
 export const config = {
   matcher: [
+     "/",
     '/dashboard/:path*',
     '/profile/:path*',
     '/settings/:path*',
