@@ -84,7 +84,7 @@ const AccountInformation = ({ user }: Props) => {
                         </h2>
 
                         {/* PROFILE IMAGE + UPLOAD BUTTON */}
-                        <div className="mt-6 border-[1px] border-[#A1A3ABA1] p-5 w-full md:w-2/5 rounded-xl flex items-center gap-6">
+                        <div className="mt-6 border border-[#A1A3ABA1] p-5 w-full md:w-2/5 rounded-xl flex items-center gap-6">
                               <div className="relative">
                                     <div className="h-20 w-20 bg-gray-300 rounded-full overflow-hidden">
                                           {preview ? (
@@ -120,7 +120,7 @@ const AccountInformation = ({ user }: Props) => {
                         </div>
 
                         {/* FORM FIELDS */}
-                        <div className="mt-6 border-[1px] border-[#A1A3ABA1] p-8 rounded-xl">
+                        <div className="mt-6 border border-[#A1A3ABA1] p-8 rounded-xl">
 
                               <div className="grid grid-cols-2 gap-6 px-4">
 

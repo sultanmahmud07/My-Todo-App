@@ -1,9 +1,7 @@
 import OpenModalButton from "@/components/todos/OpenModalButton";
 import SearchAndFilter from "@/components/todos/SearchAndFilter";
-import { TodoCard } from "@/components/todos/TodoCard";
 import TodosList from "@/components/todos/TodosList";
 import { getTodos } from "@/services/todo/getTodos";
-import { TodoItem } from "@/types";
 import Image from "next/image";
 
 type SearchParams = { [key: string]: string | string[] | undefined }
