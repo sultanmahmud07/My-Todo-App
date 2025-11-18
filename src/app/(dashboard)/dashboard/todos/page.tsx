@@ -5,10 +5,16 @@ import { getTodos } from "@/services/todo/getTodos";
 import { TodoItem } from "@/types";
 import Image from "next/image";
 
+type SearchParams = { [key: string]: string | string[] | undefined }
 
-export default async function TodosPage() {
-  const todos = await getTodos();
-  // console.log(todos.results)
+export default async function TodosPage({
+  searchParams,
+}: {
+  searchParams: SearchParams
+}) {
+  const query = await searchParams
+  const todos = await getTodos(query);
+  
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
