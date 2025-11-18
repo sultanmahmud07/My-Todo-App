@@ -1,6 +1,7 @@
 import OpenModalButton from "@/components/todos/OpenModalButton";
 import SearchAndFilter from "@/components/todos/SearchAndFilter";
 import { TodoCard } from "@/components/todos/TodoCard";
+import TodosList from "@/components/todos/TodosList";
 import { getTodos } from "@/services/todo/getTodos";
 import { TodoItem } from "@/types";
 import Image from "next/image";
@@ -14,7 +15,7 @@ export default async function TodosPage({
 }) {
   const query = await searchParams
   const todos = await getTodos(query);
-  
+
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
@@ -26,11 +27,13 @@ export default async function TodosPage({
         todos?.results?.length > 0 ? (
           <>
             <h2 className="text-xl font-semibold mb-4">Your Tasks</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {todos?.results?.map((item: TodoItem) => (
                 <TodoCard key={item.id} todo={item}></TodoCard>
               ))}
-            </div>
+            </div> */}
+            <TodosList todos={todos.results} />
+
           </>
         ) : (
           <div className="flex flex-col py-20 md:py-32 items-center justify-center gap-4 bg-white border border-[#D1D5DB] rounded-lg p-10 mt-6">
