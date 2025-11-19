@@ -1,7 +1,7 @@
 "use server";
 
 import { getCookie } from "@/services/auth/tokenHandlers";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function createTask(form: FormData) {
   const token = await getCookie("accessToken");
@@ -16,15 +16,16 @@ export async function createTask(form: FormData) {
       method: "POST",
       body: form,
       headers: {
-        Authorization: `Bearer ${token}`, // ✔️ NO content-type for FormData
+        Authorization: `Bearer ${token}`, 
       },
     }
   );
 
   const result = await res.json();
-console.log(result)
   // Revalidate GET /api/todos/
   revalidateTag("todos", 'max');
+  revalidatePath('/todos');
+  revalidatePath('/dashboard/todos');
 
   return result;
 }

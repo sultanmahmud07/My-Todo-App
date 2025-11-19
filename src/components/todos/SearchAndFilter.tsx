@@ -3,6 +3,7 @@
 import { Search, ArrowDownUp } from "lucide-react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import MyButton from "./MyButton";
 
 const SearchAndFilter = () => {
   const searchParams = useSearchParams();
@@ -45,7 +46,7 @@ const SearchAndFilter = () => {
 
   return (
     <div className="flex items-center justify-between gap-4 mb-6">
-
+      <MyButton />
       {/* Search Input */}
       <div className="relative w-full">
         <input
@@ -77,7 +78,7 @@ const SearchAndFilter = () => {
         {openFilter && (
           <div className="absolute top-14 right-0 mt-2 bg-white shadow-xl rounded-xl p-5 w-60 z-50">
             <h3 className="text-lg font-semibold border-b border-[#00000040] mb-2">Date</h3>
-          
+
 
             {filterOptions.map((item) => (
               <label

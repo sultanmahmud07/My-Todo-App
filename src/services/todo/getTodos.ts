@@ -16,17 +16,18 @@ export const getTodos = async (params?: TodoQuery) => {
   if (params?.search) queryString.set("search", params.search);
   if (params?.todo_date) queryString.set("todo_date", params.todo_date);
 
-  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/todos/${
-    queryString.toString() ? `?${queryString.toString()}` : ""
-  }`;
+  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/todos/${queryString.toString() ? `?${queryString.toString()}` : ""
+    }`;
 
   const res = await fetch(url, {
-    method: "GET",
+    cache: "no-store",
     headers: {
       Authorization: `Bearer ${token}`,
     },
     next: { tags: ["todos"] },
-  });
+
+  }
+  );
 
   return res.json();
 };

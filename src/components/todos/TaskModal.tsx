@@ -3,6 +3,7 @@
 import { Trash } from "lucide-react";
 import React, { useState, useTransition } from "react";
 import { createTask } from "../actions/createTask";
+import { toast } from "react-toastify";
 
 interface TaskModalProps {
   open: boolean;
@@ -27,8 +28,11 @@ const TaskModal: React.FC<TaskModalProps> = ({ open, onClose }) => {
     form.append("todo_date", todoDate);
 
     startTransition(async () => {
-      await createTask(form);
-      onClose(); // close modal
+      const res = await createTask(form);
+      onClose();
+      if (res?.id) {
+        toast.success("Task created successfully");
+      }
     });
   };
 

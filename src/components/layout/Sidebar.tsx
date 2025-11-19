@@ -8,7 +8,7 @@ export const Sidebar = async () => {
       const user = await getUserInfo();
       // console.log(user)
       return (
-            <div className="w-full min-h-screen bg-[#0D224A] text-white flex flex-col py-6">
+            <div className="w-full h-full min-h-screen bg-[#0D224A] text-white flex flex-col py-6">
                   <div className="flex flex-col items-center py-10">
                         <Image
                               src={user?.profile_image || "/profile-img.png"}

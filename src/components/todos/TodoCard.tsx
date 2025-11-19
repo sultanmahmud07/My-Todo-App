@@ -4,11 +4,12 @@
 import { TodoItem } from "@/types";
 import { GripVertical, PencilLine, Trash } from "lucide-react";
 import Swal from "sweetalert2";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import EditTaskModal from "./EditTaskModal";
 import { deleteTodo } from "@/services/todo/deleteTodo";
 import { toast } from "react-toastify";
 import { updateTodo } from "@/services/todo/updateTodo";
+import { useRouter } from "next/navigation";
 
 export const TodoCard = ({
   todo,
@@ -18,6 +19,8 @@ export const TodoCard = ({
   dragHandleProps?: any;
 }) => {
   const [open, setOpen] = useState(false);
+   const router = useRouter();
+   const [isPending, startTransition] = useTransition();
 
   const handleDelete = async () => {
     const result = await Swal.fire({
@@ -32,8 +35,13 @@ export const TodoCard = ({
     if (result.isConfirmed) {
       const res = await deleteTodo(todo.id);
 
-      if (res.success) toast.success("Task deleted successfully");
-      else toast.error("Delete failed");
+      if (res.success) {
+        // 🔥 Force refresh of server components
+        router.refresh();
+        toast.success("Task deleted successfully");
+      } else {
+        toast.error("Delete failed");
+      }
     }
   };
 
@@ -41,6 +49,9 @@ export const TodoCard = ({
     const res = await updateTodo(todo.id, formData);
 
     if (res.success) {
+      startTransition(() => {
+        router.refresh();
+      });
       toast.success("Task updated successfully");
       setOpen(false);
     } else toast.error("Update failed");
