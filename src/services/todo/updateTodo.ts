@@ -1,5 +1,5 @@
 "use server";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { getCookie } from "../auth/tokenHandlers";
 
 export const updateTodo = async (id: number, formData: FormData) => {
@@ -17,7 +17,9 @@ export const updateTodo = async (id: number, formData: FormData) => {
             throw new Error("Update failed");
         }
 
-        revalidateTag("todos", 'max');
+        revalidateTag("my-todos", "max");
+        revalidatePath("/todos");
+        revalidatePath("/dashboard/todos");
 
         return { success: true };
     } catch (err) {

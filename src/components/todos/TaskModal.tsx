@@ -2,8 +2,9 @@
 
 import { Trash } from "lucide-react";
 import React, { useState, useTransition } from "react";
-import { createTask } from "../actions/createTask";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { createTask } from "@/services/todo/createTask";
 
 interface TaskModalProps {
   open: boolean;
@@ -15,7 +16,7 @@ const TaskModal: React.FC<TaskModalProps> = ({ open, onClose }) => {
   const [todoDate, setTodoDate] = useState("");
   const [priority, setPriority] = useState("");
   const [description, setDescription] = useState("");
-
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   if (!open) return null;
@@ -29,6 +30,7 @@ const TaskModal: React.FC<TaskModalProps> = ({ open, onClose }) => {
 
     startTransition(async () => {
       const res = await createTask(form);
+      router.refresh();
       onClose();
       if (res?.id) {
         toast.success("Task created successfully");

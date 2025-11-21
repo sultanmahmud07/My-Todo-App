@@ -1,7 +1,7 @@
 "use server";
 
 import { getCookie } from "@/services/auth/tokenHandlers";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function updateUser(form: FormData) {
       const token = await getCookie("accessToken");
@@ -20,7 +20,9 @@ export async function updateUser(form: FormData) {
       const data = await res.json();
 
       //  Revalidate the tag so getUserInfo re-fetches fresh data
-      revalidateTag("user-info", 'max');
+      revalidateTag("user-info", "max");
+      revalidatePath("/dashboard");
+      revalidatePath("/dashboard/profile");
       // console.log("revalidate:::::")
       return data;
 }

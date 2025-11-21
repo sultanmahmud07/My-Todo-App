@@ -13,6 +13,8 @@ export default async function TodosPage({
 }) {
   const query = await searchParams
   const todos = await getTodos(query);
+  // const todos = await getTodosList(query);
+  // console.log("New:", todos)
 
   return (
     <div className="p-6">

@@ -23,9 +23,9 @@ export async function createTask(form: FormData) {
 
   const result = await res.json();
 
-  revalidateTag("todos", "max");
-  revalidatePath("/dashboard/todos");
+  revalidateTag("my-todos", "max");
   revalidatePath('/todos');
+  revalidatePath("/dashboard/todos");
 
   return result;
 }

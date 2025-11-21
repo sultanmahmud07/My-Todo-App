@@ -2,7 +2,6 @@
 
 import { revalidatePath, revalidateTag } from "next/cache";
 import { getCookie } from "../auth/tokenHandlers";
-import { refresh } from 'next/cache'
 export const deleteTodo = async (id: number) => {
     try {
         const token = await getCookie("accessToken");
@@ -16,9 +15,10 @@ export const deleteTodo = async (id: number) => {
             throw new Error("Failed to delete");
         }
 
-        revalidateTag("todos", "max");
-        revalidatePath('/dashboard/todos');
-        refresh();
+        
+        revalidateTag("my-todos", "max");
+        revalidatePath("/todos");
+        revalidatePath("/dashboard/todos");
         return { success: true };
     } catch (err) {
         console.error(err);

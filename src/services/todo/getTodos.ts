@@ -20,11 +20,11 @@ export const getTodos = async (params?: TodoQuery) => {
     }`;
 
   const res = await fetch(url, {
-    cache: "no-store",
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    next: { tags: ["todos"] },
+    next: { tags: ["my-todos"] },
 
   }
   );

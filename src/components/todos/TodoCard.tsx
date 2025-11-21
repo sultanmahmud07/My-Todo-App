@@ -19,8 +19,8 @@ export const TodoCard = ({
   dragHandleProps?: any;
 }) => {
   const [open, setOpen] = useState(false);
-   const router = useRouter();
-   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const [, startTransition] = useTransition();
 
   const handleDelete = async () => {
     const result = await Swal.fire({
@@ -37,7 +37,10 @@ export const TodoCard = ({
 
       if (res.success) {
         // 🔥 Force refresh of server components
-        router.refresh();
+
+        startTransition(() => {
+          router.refresh();
+        });
         toast.success("Task deleted successfully");
       } else {
         toast.error("Delete failed");
@@ -48,10 +51,11 @@ export const TodoCard = ({
   const handleUpdate = async (formData: FormData) => {
     const res = await updateTodo(todo.id, formData);
 
+    startTransition(() => {
+      router.refresh();
+    });
     if (res.success) {
-      startTransition(() => {
-        router.refresh();
-      });
+
       toast.success("Task updated successfully");
       setOpen(false);
     } else toast.error("Update failed");
