@@ -47,7 +47,7 @@ const TaskModal: React.FC<TaskModalProps> = ({ open, onClose }) => {
           <h2 className="text-2xl font-semibold after:border-b after:border-[#5272FF] after:block after:w-28 pb-2">
             Add New Task
           </h2>
-          <button onClick={onClose} className="text-black">
+          <button onClick={onClose} className="text-black underline">
             Go Back
           </button>
         </div>
@@ -71,7 +71,7 @@ const TaskModal: React.FC<TaskModalProps> = ({ open, onClose }) => {
             onChange={(e) => setTodoDate(e.target.value)}
             className="w-full p-3 border rounded-lg focus:outline-blue-400"
           />
-          <span className="absolute right-3 top-3 text-gray-500">📅</span>
+          {/* <span className="absolute right-3 top-3 text-gray-500">📅</span> */}
         </div>
 
         {/* Priority */}
